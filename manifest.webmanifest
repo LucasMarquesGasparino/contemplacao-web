@@ -1,0 +1,11 @@
+{
+  "name": "Contemplação",
+  "short_name": "Contemplação",
+  "description": "Imagens contemplativas em tela cheia com sons em loop — natureza, cidade, fantasia, obras-primas.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#070b10",
+  "theme_color": "#0a0f14",
+  "orientation": "any",
+  "icons": []
+}

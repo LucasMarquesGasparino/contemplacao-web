@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no, maximum-scale=1">
+<meta name="theme-color" content="#0a0f14">
+<meta name="description" content="Contemplação — imagens sem pressa, sons que acolhem. Natureza, cidade, fantasia e obras-primas em tela cheia.">
+<title>Contemplação</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- camada de imagens fullscreen com crossfade -->
+  <div id="stage" aria-label="Imagem contemplativa em tela cheia">
+    <img id="imgA" class="stage-img is-visible" alt="" decoding="async" fetchpriority="high">
+    <img id="imgB" class="stage-img" alt="" decoding="async">
+    <div id="scrim" class="scrim" aria-hidden="true"></div>
+    <div id="vignette" class="vignette" aria-hidden="true"></div>
+    <!-- mensagem central sutil -->
+    <div id="centerHint" class="center-hint" aria-hidden="true">
+      <span class="hint-icon">◯</span>
+      <span>toque para contemplar</span>
+    </div>
+  </div>
+
+  <!-- topo sutil: categoria + info -->
+  <header id="topBar" class="top-bar glass">
+    <div class="brand">
+      <span class="brand-dot" aria-hidden="true"></span>
+      <h1 class="brand-title">Contemplação</h1>
+      <span class="brand-sub">respire • observe</span>
+    </div>
+    <div class="top-actions">
+      <button id="btnInfo" class="icon-btn subtle" aria-label="Sobre / créditos">ⓘ</button>
+      <button id="btnFullscreen" class="icon-btn subtle" aria-label="Tela cheia">⛶</button>
+    </div>
+  </header>
+
+  <!-- chips de categoria -->
+  <nav id="categoryBar" class="category-bar glass" aria-label="Categorias">
+    <button data-cat="aleatorio" class="chip is-active">Aleatório</button>
+    <button data-cat="natureza" class="chip">Natureza</button>
+    <button data-cat="cidade" class="chip">Cidade</button>
+    <button data-cat="fantasia" class="chip">Fantasia</button>
+    <button data-cat="obras" class="chip">Obras-primas</button>
+    <button data-cat="mar" class="chip">Mar</button>
+    <button data-cat="floresta" class="chip">Floresta</button>
+  </nav>
+
+  <!-- barra inferior de controles - bem sutil, glass -->
+  <footer id="bottomBar" class="bottom-bar glass">
+    <div class="bottom-row">
+      <!-- som -->
+      <div class="sound-group">
+        <button id="btnSoundToggle" class="icon-btn sound-toggle" aria-label="Ativar som">♫</button>
+        <div class="sound-select-wrap">
+          <label for="soundSelect" class="sr-only">Som ambiente</label>
+          <select id="soundSelect" class="sound-select" aria-label="Escolher som ambiente">
+            <option value="silencio">— silêncio —</option>
+            <option value="chuva">Chuva suave</option>
+            <option value="cachoeira">Cachoeira</option>
+            <option value="mar">Mar calmo</option>
+            <option value="gaivotas">Gaivotas &amp; mar</option>
+            <option value="floresta">Floresta</option>
+            <option value="cidade">Cidade distante</option>
+            <option value="vento">Vento / névoa</option>
+            <option value="noite">Noite estrelada</option>
+          </select>
+        </div>
+        <input id="volumeSlider" class="volume-slider" type="range" min="0" max="100" value="42" aria-label="Volume">
+      </div>
+
+      <!-- centro: próximo -->
+      <div class="center-group">
+        <button id="btnPrev" class="icon-btn nav-btn" aria-label="Imagem anterior">‹</button>
+        <button id="btnNext" class="next-btn" aria-label="Próxima imagem">
+          <span class="next-icon">›</span>
+          <span class="next-label">contemplar</span>
+        </button>
+        <button id="btnShuffle" class="icon-btn nav-btn" aria-label="Aleatório" title="Surpreenda-me">↻</button>
+      </div>
+
+      <!-- direita: autoplay + detalhes -->
+      <div class="meta-group">
+        <label class="autoplay-wrap" title="Troca automática">
+          <input id="autoplayToggle" type="checkbox">
+          <span class="autoplay-label">auto</span>
+          <span id="autoplayCountdown" class="countdown" aria-hidden="true"></span>
+        </label>
+        <span id="imageCounter" class="image-counter" aria-live="polite">—</span>
+      </div>
+    </div>
+
+    <!-- legenda sutil -->
+    <div id="caption" class="caption" aria-live="polite">
+      <span id="captionTitle" class="caption-title"></span>
+      <span id="captionMeta" class="caption-meta"></span>
+      <a id="captionLink" class="caption-link" href="#" target="_blank" rel="noopener" hidden>fonte</a>
+    </div>
+  </footer>
+
+  <!-- botão flutuante minimal para esconder controles (modo contemplação pura) -->
+  <button id="btnHideUI" class="hide-ui-btn glass" aria-label="Esconder interface">—</button>
+
+  <!-- overlay de info / créditos -->
+  <dialog id="infoDialog" class="info-dialog">
+    <form method="dialog">
+      <h2>Contemplação</h2>
+      <p>Imagens em tela cheia para respirar um pouco. Sem anúncios, sem pressa.</p>
+      <ul>
+        <li><strong>Toque na imagem</strong> ou use <strong>› contemplar</strong> para a próxima.</li>
+        <li>Arraste para o lado ou use as setas do teclado.</li>
+        <li>Escolha o <strong>som em loop</strong> — chuva, cachoeira, mar, gaivotas, floresta, cidade… tudo bem sutil, para não competir com a imagem.</li>
+        <li>Use <strong>auto</strong> para troca automática a cada 18s.</li>
+        <li>Botão <strong>—</strong> esconde a interface para contemplação pura. Toque na imagem para trazer de volta.</li>
+      </ul>
+      <h3>Fontes de imagens — sem direitos autorais restritivos</h3>
+      <ul class="sources">
+        <li><strong>Pixabay</strong> — fotos e paisagens CC0 (https://pixabay.com) — natureza, cidade, mar, floresta</li>
+        <li><strong>Unsplash CDN direto</strong> — 30+ fotografias contemplativas licença gratuita (images.unsplash.com)</li>
+        <li><strong>Metropolitan Museum of Art (Met)</strong> — obras em domínio público via Collection API (https://metmuseum.github.io) — fantasia e obras-primas</li>
+        <li><strong>Wikimedia Commons</strong> — obras-primas domínio público (Van Gogh, Hokusai, Monet, Friedrich)</li>
+        <li><strong>Picsum Photos</strong> — fallback CC0 (https://picsum.photos) — quando online</li>
+      </ul>
+      <p class="credits">Sons gerados localmente com Web Audio (ruído filtrado + osciladores) + previews Pixabay CC0 quando online. Tudo em loop perfeito, sem cortes bruscos.</p>
+      <p class="credits">Dica: deixe o brilho no mínimo e o volume baixo. É para desacelerar.</p>
+      <button class="chip close-btn" value="close">fechar • continuar contemplando</button>
+    </form>
+  </dialog>
+
+  <!-- loader sutil -->
+  <div id="loader" class="loader" aria-hidden="true"><span></span></div>
+
+<script src="app.js"></script>
+</body>
+</html>
